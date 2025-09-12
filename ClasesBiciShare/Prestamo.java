@@ -2,7 +2,7 @@ package ClasesBiciShare;
 
 public class Prestamo {
     private Usuario usuario;
-    private Bicicleta bici
+    private Bicicleta bici;
 
     public Prestamo(Usuario usuario, Bicicleta bici){
         this.usuario = usuario;
@@ -10,11 +10,11 @@ public class Prestamo {
     }
 
     public Usuario getUsuario(){
-        return = usuario;
+        return usuario;
     }
 
     public Bicicleta getBici(){
-        return = bici;
+        return bici;
     }
 
 }
