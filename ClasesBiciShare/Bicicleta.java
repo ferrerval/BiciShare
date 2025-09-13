@@ -3,19 +3,19 @@ package ClasesBiciShare;
 public class Bicicleta {
     
     private int id;
-    private String estado;
+    private boolean estado;
 
-    public Bicicleta(int id, String estado){
+    public Bicicleta(int id, boolean estado){
         this.id=id;
         this.estado=estado;
     }
     public int getId(){
         return id;
     }
-    public String getEstado(){
+    public boolean getEstado(){
         return estado;
     }
-    public void setEstado(String estado){
+    public void setEstado(boolean estado){
         this.estado=estado;
     }
 }
