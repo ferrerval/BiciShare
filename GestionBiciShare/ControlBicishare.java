@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 public class ControlBicishare {
     private ArrayList<Bicicleta> bicicletas = new ArrayList<>();
     private ArrayList<Usuario> usuarios = new ArrayList<>();
@@ -87,10 +88,27 @@ public class ControlBicishare {
 
     }
 
+    @SuppressWarnings("unused")
     public void registrarBicicleta() {
         System.out.println("registrar Bicicleta");
+        System.out.println("Ingrese el ID de la bicicleta:");
+    int id = sc.nextInt();
+    sc.nextLine(); 
+    System.out.println("Ingrese el modelo de la bicicleta:");
+    String modelo = sc.nextLine();
+    System.out.println("Estado (Disponible/No disponible):");
+    String estado = sc.nextLine();
 
-    }
+   
+    boolean estadoDisponible = estado.equalsIgnoreCase("Disponible");
+    Bicicleta nuevaBici;
+    
+
+nuevaBici = new Bicicleta(id, modelo, estado);
+bicicletas.add(nuevaBici);
+
+System.out.println("Bicicleta registrada correctamente.");
+}
 
     public void listarUsuarios() {
         return;

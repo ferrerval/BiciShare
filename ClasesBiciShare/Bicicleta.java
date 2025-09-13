@@ -10,6 +10,10 @@ public class Bicicleta {
         this.estado = estado;
     }
 
+    public Bicicleta(int id2, String modelo, String estado2) {
+        
+    }
+
     public int getId() {
         return id;
     }
