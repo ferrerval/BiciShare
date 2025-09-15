@@ -265,7 +265,7 @@ public class ControlBicishare {
             } else if (b instanceof Mecanica) {
                 Mecanica m = (Mecanica) b;
                 System.out.println(
-                        m.getId() + " - " + m.getTipo() + "-" + m.getEstadoTexto());
+                        m.getId() + " - " + m.getTipo() + " - " + m.getEstadoTexto());
             }
 
         }
