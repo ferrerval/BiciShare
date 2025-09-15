@@ -76,6 +76,7 @@ public class ControlBicishare {
         System.out.println("Registro de usuario");
         System.out.println("ingrese su ID");
         int id = sc.nextInt();
+        sc.nextLine();
         System.out.println("ingrese su Nombre Completo");
         String nombre = sc.nextLine();
         System.out.println("Tipo (Estudiante/Profesor)");
@@ -83,8 +84,6 @@ public class ControlBicishare {
 
         Usuario nuevoUsuario = new Usuario(nombre, id, tipo);
         usuarios.add(nuevoUsuario);
-
-        System.out.println(id);
 
     }
 
@@ -115,6 +114,11 @@ public class ControlBicishare {
     }
 
     public void listarUsuarios() {
+        for (int i = 0; i < usuarios.size(); i++) {
+            Usuario p = usuarios.get(i);
+            System.out.println(
+                    +p.getId() + " - " + p.getNombre() + " - " + p.getTipoUsuario());
+        }
 
         return;
     }
