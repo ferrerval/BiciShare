@@ -1,10 +1,12 @@
 package ClasesBiciShare;
 
 public class Bicicleta {
-
+    // id para identificar la bicicleta
     private int id;
+    // devuelve true si la bicicleta esta disponible para el prestamo
     private boolean estado;
 
+    // metodo constructor el cual recibe un id y el estado en texto
     public Bicicleta(int id, String estado) {
         this.id = id;
         if (estado == null) {
@@ -18,6 +20,8 @@ public class Bicicleta {
         }
     }
 
+    // metodos de consulta y actualizacion del estado a Disponible o no Disponible
+    // en texto segun la condicion
     public int getId() {
         return id;
     }
