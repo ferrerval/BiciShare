@@ -279,7 +279,84 @@ public class ControlBicishare {
     }
 
     public void prestarBicicleta() {
-        System.out.println("Prestamo de bicicleta");
+        System.out.println("\n--- Prestar Bicicleta ---");
+
+        System.out.print("Ingrese su ID de usuario: ");
+        while (!sc.hasNextInt()) {
+            System.out.println(" Debe ingresar un número entero para el ID.");
+            sc.next();
+            System.out.print("Ingrese su ID de usuario: ");
+        }
+        int idUsuario = sc.nextInt();
+        sc.nextLine();
+
+        Usuario u = null;
+        for (Usuario user : usuarios) {
+            if (user.getId() == idUsuario) {
+                u = user;
+                break;
+            }
+        }
+        if (u == null) {
+            System.out.println(" No existe un usuario con ID " + idUsuario + ".");
+            return;
+        }
+
+        System.out.println("\nBicicletas disponibles:");
+        boolean hayDisponibles = false;
+        for (Bicicleta b : bicicletas) {
+            if (b.getEstado()) {
+                hayDisponibles = true;
+                if (b instanceof Electrica) {
+                    Electrica e = (Electrica) b;
+                    System.out.println(
+                            e.getId() + " - " + "Electrica" + " - " + e.getEstadoTexto() + " - " + e.getNivelBateria()
+                                    + "%");
+                } else if (b instanceof Mecanica) {
+                    System.out.println(
+                            b.getId() + " - " + " Mecanica" + " - " + b.getEstadoTexto());
+                }
+            }
+        }
+        if (!hayDisponibles) {
+            System.out.println("No hay bicicletas disponibles en este momento.");
+            return;
+        }
+
+        System.out.print("\nIngrese el ID de la bicicleta que desea tomar: ");
+        while (!sc.hasNextInt()) {
+            System.out.println("  Debe ingresar un número entero.");
+            sc.next();
+            System.out.print("Ingrese el ID de la bicicleta que desea tomar: ");
+        }
+        int idBici = sc.nextInt();
+        sc.nextLine();
+
+        Bicicleta biciElegida = null;
+        for (Bicicleta b : bicicletas) {
+            if (b.getId() == idBici && b.getEstado()) {
+                biciElegida = b;
+                break;
+            }
+        }
+        if (biciElegida == null) {
+            System.out.println(" El ID " + idBici + " no existe o no está disponible.");
+            return;
+        }
+
+        Prestamo nuevo = new Prestamo(u, biciElegida);
+        prestamos.add(nuevo);
+        biciElegida.setEstado(false);
+
+        String tipo;
+        if (biciElegida instanceof Electrica) {
+            tipo = "Electrica";
+        } else {
+            tipo = "Mecanica";
+        }
+        System.out.println(" Préstamo registrado:");
+        System.out.println("   Usuario: " + u.getNombre() + " (ID " + u.getId() + ")");
+        System.out.println("   Bicicleta: " + tipo + " (ID " + biciElegida.getId() + ")");
 
     }
 
