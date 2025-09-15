@@ -81,36 +81,41 @@ public class ControlBicishare {
         System.out.println("Tipo (Estudiante/Profesor)");
         String tipo = sc.nextLine();
 
-        Usuario usuarioNuevo = new Usuario(nombre, id, tipo);
-        usuarios.add(usuarioNuevo);
+        Usuario nuevoUsuario = new Usuario(nombre, id, tipo);
+        usuarios.add(nuevoUsuario);
 
         System.out.println(id);
 
     }
 
-    @SuppressWarnings("unused")
     public void registrarBicicleta() {
         System.out.println("registrar Bicicleta");
         System.out.println("Ingrese el ID de la bicicleta:");
-    int id = sc.nextInt();
-    sc.nextLine(); 
-    System.out.println("Ingrese el modelo de la bicicleta:");
-    String modelo = sc.nextLine();
-    System.out.println("Estado (Disponible/No disponible):");
-    String estado = sc.nextLine();
+        int id = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Ingrese el modelo de la bicicleta (Mecanica/Eletrica):");
+        String modelo = sc.nextLine();
+        System.out.println("Estado (Disponible/No disponible):");
+        String estado = sc.nextLine();
 
-   
-    boolean estadoDisponible = estado.equalsIgnoreCase("Disponible");
-    Bicicleta nuevaBici;
-    
+        Boolean estadoDisponible = estado.equalsIgnoreCase("Disponible");
 
-nuevaBici = new Bicicleta(id, modelo, estado);
-bicicletas.add(nuevaBici);
+        if (modelo.equalsIgnoreCase("Mecanica")) {
+            Bicicleta nuevaBici = new Mecanica(id, estadoDisponible);
+            bicicletas.add(nuevaBici);
+            System.out.println("Has registrado una bicicleta mecánica.");
+        } else if (modelo.equalsIgnoreCase("Electrica")) {
+            Bicicleta nuevaBici = new Mecanica(id, estadoDisponible);
+            bicicletas.add(nuevaBici);
+            System.out.println("Has registrado una bicicleta eléctrica.");
+        } else {
+            System.out.println("El modelo ingresado no es válido.");
+        }
 
-System.out.println("Bicicleta registrada correctamente.");
-}
+    }
 
     public void listarUsuarios() {
+
         return;
     }
 
@@ -139,4 +144,3 @@ System.out.println("Bicicleta registrada correctamente.");
         return;
     }
 }
-//hb
