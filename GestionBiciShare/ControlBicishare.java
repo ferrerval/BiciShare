@@ -432,7 +432,35 @@ public class ControlBicishare {
     }
 
     public void mostrarHistorial() {
-        return;
+        System.out.println("\n--- Historial de préstamos activos ---");
+
+        if (prestamos.isEmpty()) {
+            System.out.println(" No hay préstamos activos en este momento.");
+            return;
+        }
+
+        for (int i = 0; i < prestamos.size(); i++) {
+            Prestamo p = prestamos.get(i);
+            Usuario u = p.getUsuario();
+            Bicicleta b = p.getBici();
+
+            String tipo;
+            if (b instanceof Electrica) {
+                tipo = "Electrica";
+                Electrica e = (Electrica) b;
+                System.out.println(
+                        "Usuario: " + u.getNombre() + " (ID " + u.getId() + ") - "
+                                + "Bicicleta: " + tipo + " (ID " + e.getId() + ") - "
+                                + "Estado: " + e.getEstadoTexto() + " - "
+                                + "Batería: " + e.getNivelBateria() + "%");
+            } else if (b instanceof Mecanica) {
+                tipo = "Mecanica";
+                System.out.println(
+                        "Usuario: " + u.getNombre() + " (ID " + u.getId() + ") - "
+                                + "Bicicleta: " + tipo + " (ID " + b.getId() + ") - "
+                                + "Estado: " + b.getEstadoTexto());
+            }
+        }
     }
 
     public void salir() {
