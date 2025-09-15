@@ -28,7 +28,8 @@ public class ControlBicishare {
             System.out.println("6. Prestar bicicleta");
             System.out.println("7. Devolver bicicleta");
             System.out.println("8. Mostrar historial de préstamos");
-            System.out.println("9. Salir");
+            System.out.println("9. Recargar bicicleta");
+            System.out.println("10. Salir");
             System.out.println("Elija una opcion ");
             opcion = sc.nextInt();
 
@@ -58,6 +59,9 @@ public class ControlBicishare {
                     mostrarHistorial();
                     break;
                 case 9:
+                    recargarBicicleta();
+                    break;
+                case 10:
                     salir();
                     break;
 
