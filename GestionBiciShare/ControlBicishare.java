@@ -416,8 +416,16 @@ public class ControlBicishare {
             System.out.println(
                     e.getId() + " - " + "Electrica" + " - " + e.getEstadoTexto() + " - " + e.getNivelBateria() + "%");
         } else if (b instanceof Mecanica) {
-            System.out.println(
-                    b.getId() + " - " + "Mecanica" + " - " + b.getEstadoTexto());
+            System.out.println(b.getId() + " - " + "Mecanica" + " - " + b.getEstadoTexto());
+        }
+
+        if (b instanceof Electrica) {
+            Electrica e = (Electrica) b;
+            int nueva = e.getNivelBateria() - 15;
+            if (nueva < 0) {
+                nueva = 0;
+            }
+            e.setNivelBateria(nueva);
         }
 
         b.setEstado(true);
@@ -439,7 +447,13 @@ public class ControlBicishare {
 
         System.out.println(" Devolución registrada:");
         System.out.println("   Usuario: " + u.getNombre() + " (ID " + u.getId() + ")");
-        System.out.println("   Bicicleta: " + tipo + " (ID " + b.getId() + ") ahora Disponible");
+        if (b instanceof Electrica) {
+            Electrica e = (Electrica) b;
+            System.out.println("   Bicicleta: " + tipo + " (ID " + b.getId() + ") ahora Disponible - Batería: "
+                    + e.getNivelBateria() + "%");
+        } else {
+            System.out.println("   Bicicleta: " + tipo + " (ID " + b.getId() + ") ahora Disponible");
+        }
     }
 
     public void mostrarHistorial() {
