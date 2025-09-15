@@ -1,7 +1,12 @@
 package ClasesBiciShare;
 
 public class Mecanica extends Bicicleta {
-    public Mecanica(int id, boolean estado) {
+    public Mecanica(int id, String estado) {
         super(id, estado);
     }
+
+    public String getTipo() {
+        return "Mecanica";
+    }
+
 }

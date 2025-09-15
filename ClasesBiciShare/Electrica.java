@@ -4,7 +4,7 @@ public class Electrica extends Bicicleta {
 
     private int nivelBateria;
 
-    public Electrica(int id, boolean estado, int nivelBateria) {
+    public Electrica(int id, String estado, int nivelBateria) {
         super(id, estado);
         this.nivelBateria = nivelBateria;
     }
@@ -15,5 +15,9 @@ public class Electrica extends Bicicleta {
 
     public void setNivelBateria(int nivelBateria) {
         this.nivelBateria = nivelBateria;
+    }
+
+    public String getTipo() {
+        return "Electrica";
     }
 }

@@ -5,13 +5,17 @@ public class Bicicleta {
     private int id;
     private boolean estado;
 
-    public Bicicleta(int id, boolean estado) {
+    public Bicicleta(int id, String estado) {
         this.id = id;
-        this.estado = estado;
-    }
-
-    public Bicicleta(int id2, String modelo, String estado2) {
-        
+        if (estado == null) {
+            this.estado = false;
+        } else if (estado.equalsIgnoreCase("Disponible")) {
+            this.estado = true;
+        } else if (estado.equalsIgnoreCase("No disponible")) {
+            this.estado = false;
+        } else {
+            this.estado = Boolean.parseBoolean(estado.trim());
+        }
     }
 
     public int getId() {
@@ -24,5 +28,13 @@ public class Bicicleta {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public String getEstadoTexto() {
+        if (estado) {
+            return "Disponible";
+        } else {
+            return "No disponible";
+        }
     }
 }

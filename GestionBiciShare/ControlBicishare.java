@@ -74,65 +74,213 @@ public class ControlBicishare {
 
     public void registrarUsuario() {
         System.out.println("Registro de usuario");
-        System.out.println("ingrese su ID");
-        int id = sc.nextInt();
-        sc.nextLine();
-        System.out.println("ingrese su Nombre Completo");
-        String nombre = sc.nextLine();
-        System.out.println("Tipo (Estudiante/Profesor)");
-        String tipo = sc.nextLine();
+
+        int id;
+        while (true) {
+            System.out.print("Ingrese su ID (máx. 10 dígitos): ");
+
+            while (!sc.hasNextInt()) {
+                System.out.println("  Solo se permiten números. Intente de nuevo.");
+                sc.next();
+            }
+
+            id = sc.nextInt();
+            sc.nextLine();
+
+            if (String.valueOf(id).length() > 10) {
+                System.out.println("  El ID no puede tener más de 10 dígitos. Intente de nuevo.");
+                continue;
+            }
+
+            boolean repetido = false;
+            for (Usuario u : usuarios) {
+                if (u.getId() == id) {
+                    repetido = true;
+                    break;
+                }
+            }
+
+            if (repetido) {
+                System.out.println("  Ya existe un usuario con ese ID. Intente con otro.");
+            } else {
+                break;
+            }
+        }
+
+        String nombre;
+        while (true) {
+            System.out.print("Ingrese su Nombre Completo: ");
+            nombre = sc.nextLine().trim();
+            if (!nombre.isEmpty()) {
+                break;
+            }
+            System.out.println("  El nombre no puede estar vacío. Intente de nuevo.");
+        }
+
+        String tipo;
+        while (true) {
+            System.out.print("Tipo (Estudiante/Profesor): ");
+            tipo = sc.nextLine().trim();
+            if (tipo.equalsIgnoreCase("Estudiante") || tipo.equalsIgnoreCase("Profesor")) {
+                break;
+            }
+            System.out.println("  Solo se permite 'Estudiante' o 'Profesor'. Intente de nuevo.");
+        }
 
         Usuario nuevoUsuario = new Usuario(nombre, id, tipo);
         usuarios.add(nuevoUsuario);
+        System.out.println(" Usuario registrado correctamente.");
 
     }
 
     public void registrarBicicleta() {
-        System.out.println("registrar Bicicleta");
-        System.out.println("Ingrese el ID de la bicicleta:");
-        int id = sc.nextInt();
-        sc.nextLine();
-        System.out.println("Ingrese el modelo de la bicicleta (Mecanica/Eletrica):");
-        String modelo = sc.nextLine();
-        System.out.println("Estado (Disponible/No disponible):");
-        String estado = sc.nextLine();
+        System.out.println("Registrar Bicicleta");
 
-        Boolean estadoDisponible = estado.equalsIgnoreCase("Disponible");
+        int id;
+        while (true) {
+            System.out.print("Ingrese el ID de la bicicleta (máx. 5 dígitos): ");
+
+            while (!sc.hasNextInt()) {
+                System.out.println(" Solo se permiten números. Intente de nuevo.");
+                sc.next();
+            }
+
+            id = sc.nextInt();
+            sc.nextLine();
+
+            if (String.valueOf(id).length() > 5) {
+                System.out.println(" El ID no puede tener más de 5 dígitos. Intente de nuevo.");
+                continue;
+            }
+
+            boolean repetido = false;
+            for (Bicicleta b : bicicletas) {
+                if (b.getId() == id) {
+                    repetido = true;
+                    break;
+                }
+            }
+
+            if (repetido) {
+                System.out.println(" Ya existe una bicicleta con ese ID. Intente con otro.");
+            } else {
+                break;
+            }
+        }
+
+        String modelo;
+        while (true) {
+            System.out.print("Modelo (Mecanica/Electrica): ");
+            modelo = sc.nextLine().trim();
+            if (modelo.equalsIgnoreCase("Mecanica") || modelo.equalsIgnoreCase("Electrica")) {
+                break;
+            }
+            System.out.println(" Solo se permite 'Mecanica' o 'Electrica'. Intente de nuevo.");
+        }
+
+        String estado;
+        while (true) {
+            System.out.print("Estado (Disponible/No disponible): ");
+            estado = sc.nextLine().trim();
+            if (estado.equalsIgnoreCase("Disponible") || estado.equalsIgnoreCase("No disponible")) {
+                break;
+            }
+            System.out.println(" Solo se permite 'Disponible' o 'No disponible'. Intente de nuevo.");
+        }
 
         if (modelo.equalsIgnoreCase("Mecanica")) {
-            Bicicleta nuevaBici = new Mecanica(id, estadoDisponible);
+            bicicletas.add(new Mecanica(id, estado));
+            System.out.println(" Bicicleta mecánica registrada.");
+        } else { // Electrica
+            int nivel;
+            while (true) {
+                System.out.print("Nivel de batería (0-100): ");
+
+                while (!sc.hasNextInt()) {
+                    System.out.println("  Debe ingresar un número entero entre 0 y 100.");
+                    sc.next();
+                }
+
+                nivel = sc.nextInt();
+                sc.nextLine();
+
+                if (nivel < 0 || nivel > 100) {
+                    System.out.println("  El nivel de batería debe estar entre 0 y 100. Intente de nuevo.");
+                } else {
+                    break;
+                }
+            }
+
+            Electrica nuevaBici = new Electrica(id, modelo, nivel);
             bicicletas.add(nuevaBici);
-            System.out.println("Has registrado una bicicleta mecánica.");
-        } else if (modelo.equalsIgnoreCase("Electrica")) {
-            Bicicleta nuevaBici = new Mecanica(id, estadoDisponible);
-            bicicletas.add(nuevaBici);
-            System.out.println("Has registrado una bicicleta eléctrica.");
-        } else {
-            System.out.println("El modelo ingresado no es válido.");
+            System.out.println(" Bicicleta eléctrica registrada.");
         }
 
     }
 
     public void listarUsuarios() {
+        System.out.println("\n Listado de usuarios");
         for (int i = 0; i < usuarios.size(); i++) {
             Usuario p = usuarios.get(i);
             System.out.println(
-                    +p.getId() + " - " + p.getNombre() + " - " + p.getTipoUsuario());
+                    p.getId() + " - " + p.getNombre() + " - " + p.getTipoUsuario());
         }
 
-        return;
     }
 
     public void listarBicicletas() {
-        return;
+        System.out.println("\nListado de bicicletas:");
+        for (int i = 0; i < bicicletas.size(); i++) {
+            Bicicleta b = bicicletas.get(i);
+
+            if (b instanceof Electrica) {
+                Electrica e = (Electrica) b;
+                System.out.println(
+                        e.getId() + " - " + e.getTipo() + " - " + e.getEstadoTexto() + " - " + e.getNivelBateria()
+                                + "%");
+
+            } else if (b instanceof Mecanica) {
+                Mecanica m = (Mecanica) b;
+                System.out.println(
+                        m.getId() + " - " + m.getTipo() + "-" + m.getEstadoTexto());
+            }
+
+        }
+
     }
 
     public void listarDisponibles() {
-        return;
+        System.out.println("\nListado de bicicletas disponibles");
+
+        boolean hayDisponibles = false;
+
+        for (int i = 0; i < bicicletas.size(); i++) {
+            Bicicleta b = bicicletas.get(i);
+
+            if (b.getEstado()) {
+                hayDisponibles = true;
+
+                if (b instanceof Electrica) {
+                    Electrica e = (Electrica) b;
+                    System.out.println(
+                            e.getId() + " - " + e.getTipo() + " - : " + e.getEstadoTexto() + " - " + e.getNivelBateria()
+                                    + "%");
+                } else if (b instanceof Mecanica) {
+                    Mecanica m = (Mecanica) b;
+                    System.out.println(
+                            m.getId() + " - " + m.getTipo() + " - " + m.getEstadoTexto());
+                }
+            }
+        }
+
+        if (!hayDisponibles) {
+            System.out.println("No hay bicicletas disponibles en este momento.");
+        }
     }
 
     public void prestarBicicleta() {
-        return;
+        System.out.println("Prestamo de bicicleta");
+
     }
 
     public void devolverBicicleta() {
