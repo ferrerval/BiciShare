@@ -133,8 +133,6 @@ public class ControlBicishare {
     public void registrarBicicleta() {
         System.out.println("Registrar Bicicleta");
 
-        System.out.println("Registrar Bicicleta");
-
         int id;
         while (true) {
             System.out.print("Ingrese el ID de la bicicleta (máx. 5 dígitos): ");
@@ -291,7 +289,8 @@ public class ControlBicishare {
         sc.nextLine();
 
         Usuario u = null;
-        for (Usuario user : usuarios) {
+        for (int i = 0; i < usuarios.size(); i++) {
+            Usuario user = usuarios.get(i);
             if (user.getId() == idUsuario) {
                 u = user;
                 break;
@@ -304,17 +303,20 @@ public class ControlBicishare {
 
         System.out.println("\nBicicletas disponibles:");
         boolean hayDisponibles = false;
-        for (Bicicleta b : bicicletas) {
+        for (int i = 0; i < bicicletas.size(); i++) {
+            Bicicleta b = bicicletas.get(i);
             if (b.getEstado()) {
-                hayDisponibles = true;
                 if (b instanceof Electrica) {
                     Electrica e = (Electrica) b;
-                    System.out.println(
-                            e.getId() + " - " + "Electrica" + " - " + e.getEstadoTexto() + " - " + e.getNivelBateria()
-                                    + "%");
+                    if (e.getNivelBateria() == 0) {
+                        continue;
+                    }
+                    hayDisponibles = true;
+                    System.out.println(e.getId() + " - " + "Electrica" + " - " + e.getEstadoTexto() + " - "
+                            + e.getNivelBateria() + "%");
                 } else if (b instanceof Mecanica) {
-                    System.out.println(
-                            b.getId() + " - " + " Mecanica" + " - " + b.getEstadoTexto());
+                    hayDisponibles = true;
+                    System.out.println(b.getId() + " - " + "Mecanica" + " - " + b.getEstadoTexto());
                 }
             }
         }
@@ -333,8 +335,17 @@ public class ControlBicishare {
         sc.nextLine();
 
         Bicicleta biciElegida = null;
-        for (Bicicleta b : bicicletas) {
+        for (int i = 0; i < bicicletas.size(); i++) {
+            Bicicleta b = bicicletas.get(i);
             if (b.getId() == idBici && b.getEstado()) {
+                if (b instanceof Electrica) {
+                    Electrica e = (Electrica) b;
+                    if (e.getNivelBateria() == 0) {
+                        System.out.println(" La bicicleta eléctrica (ID " + e.getId()
+                                + ") tiene batería 0% y no se puede prestar. Recárguela.");
+                        return;
+                    }
+                }
                 biciElegida = b;
                 break;
             }
