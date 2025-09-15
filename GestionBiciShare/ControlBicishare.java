@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ControlBicishare {
+    // Listas principales que usamos en el programa
     private ArrayList<Bicicleta> bicicletas = new ArrayList<>();
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     private ArrayList<Prestamo> prestamos = new ArrayList<>();
+    // Scanner para leer la información que los usuarios escriben en consola
     private Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -15,6 +17,13 @@ public class ControlBicishare {
 
     }
 
+    /**
+     * run()
+     * 
+     * Muestra el menú principal en un ciclo.
+     * Cada número del menú llama a la función correspondiente.
+     * El ciclo termina cuando el usuario elige salir.
+     */
     private void run() {
         int opcion;
 
@@ -31,8 +40,11 @@ public class ControlBicishare {
             System.out.println("9. Mostrar HIstorial de prestamos");
             System.out.println("10. Salir");
             System.out.println("Elija una opcion ");
+
+            // Leemos la opción que ingresa el usuario
             opcion = sc.nextInt();
 
+            // Según la opción, llamamos al método correspondiente
             switch (opcion) {
                 case 1:
                     registrarUsuario();
@@ -68,18 +80,19 @@ public class ControlBicishare {
                 default:
                     System.out.println("Opción inválida.");
             }
-
-        } while (opcion != 9);
+            // el ciclo se repite hasta que se elija la opción de salir
+        } while (opcion != 10);
 
     }
 
+    // Registra un nuevo usuario en el sistema pidiendo su información.
     public void registrarUsuario() {
         System.out.println("Registro de usuario");
-
+        // ID: validamos que sea número y máx. 10 dígitos, y que no esté repetido
         int id;
         while (true) {
             System.out.print("Ingrese su ID (máx. 10 dígitos): ");
-
+            // Mientras no escriba un número, pedimos de nuevo
             while (!sc.hasNextInt()) {
                 System.out.println("  Solo se permiten números. Intente de nuevo.");
                 sc.next();
@@ -87,12 +100,12 @@ public class ControlBicishare {
 
             id = sc.nextInt();
             sc.nextLine();
-
+            // Limite de longitud (10 dígitos)
             if (String.valueOf(id).length() > 10) {
                 System.out.println("  El ID no puede tener más de 10 dígitos. Intente de nuevo.");
                 continue;
             }
-
+            // Reviso que no exista otro usuario con ese ID
             boolean repetido = false;
             for (Usuario u : usuarios) {
                 if (u.getId() == id) {
@@ -104,10 +117,10 @@ public class ControlBicishare {
             if (repetido) {
                 System.out.println("  Ya existe un usuario con ese ID. Intente con otro.");
             } else {
-                break;
+                break;// ID válido
             }
         }
-
+        // Nombre: no puede quedar vacío
         String nombre;
         while (true) {
             System.out.print("Ingrese su Nombre Completo: ");
@@ -117,7 +130,7 @@ public class ControlBicishare {
             }
             System.out.println("  El nombre no puede estar vacío. Intente de nuevo.");
         }
-
+        // Tipo: solo Estudiante o Profesor
         String tipo;
         while (true) {
             System.out.print("Tipo (Estudiante/Profesor): ");
@@ -127,20 +140,22 @@ public class ControlBicishare {
             }
             System.out.println("  Solo se permite 'Estudiante' o 'Profesor'. Intente de nuevo.");
         }
-
+        // Creo el usuario y lo guardo
         Usuario nuevoUsuario = new Usuario(nombre, id, tipo);
         usuarios.add(nuevoUsuario);
         System.out.println(" Usuario registrado correctamente.");
 
     }
 
+    // Registra una bicicleta mecánica o eléctrica.
+    // Valida que el id no se repita y que los datos sean correctos
     public void registrarBicicleta() {
         System.out.println("Registrar Bicicleta");
 
         int id;
         while (true) {
             System.out.print("Ingrese el ID de la bicicleta (máx. 5 dígitos): ");
-
+            // ID: número, máx. 5 dígitos y único
             while (!sc.hasNextInt()) {
                 System.out.println(" Solo se permiten números. Intente de nuevo.");
                 sc.next();
@@ -166,10 +181,10 @@ public class ControlBicishare {
             if (repetido) {
                 System.out.println(" Ya existe una bicicleta con ese ID. Intente con otro.");
             } else {
-                break;
+                break;// ID validado
             }
         }
-
+        // Modelo: solo Mecanica o Electrica
         String modelo;
         while (true) {
             System.out.print("Modelo (Mecanica/Electrica): ");
@@ -179,7 +194,7 @@ public class ControlBicishare {
             }
             System.out.println(" Solo se permite 'Mecanica' o 'Electrica'. Intente de nuevo.");
         }
-
+        // Estado: solo Disponible o No disponible
         String estado;
         while (true) {
             System.out.print("Estado (Disponible/No disponible): ");
@@ -189,13 +204,15 @@ public class ControlBicishare {
             }
             System.out.println(" Solo se permite 'Disponible' o 'No disponible'. Intente de nuevo.");
         }
-
+        // Creo la bicicleta según el modelo
         if (modelo.equalsIgnoreCase("Mecanica")) {
+            // Para mecánica no hay nivel de batería
             bicicletas.add(new Mecanica(id, estado));
             System.out.println(" Bicicleta mecánica registrada.");
         } else {
             int nivel;
             while (true) {
+                // Para eléctrica, pido nivel de batería y valido rango
                 System.out.print("Nivel de batería (0-100): ");
 
                 while (!sc.hasNextInt()) {
@@ -209,7 +226,7 @@ public class ControlBicishare {
                 if (nivel < 0 || nivel > 100) {
                     System.out.println("  El nivel de batería debe estar entre 0 y 100. Intente de nuevo.");
                 } else {
-                    break;
+                    break; // nivel validado
                 }
             }
 
@@ -220,8 +237,10 @@ public class ControlBicishare {
 
     }
 
+    // Muestra todos los usuarios registrados
     public void listarUsuarios() {
         System.out.println("\n Listado de usuarios");
+        // Recorro y muestro en el formato que usamos en todo el proyecto
         for (int i = 0; i < usuarios.size(); i++) {
             Usuario p = usuarios.get(i);
             System.out.println(
@@ -230,8 +249,10 @@ public class ControlBicishare {
 
     }
 
+    // Muestra todas las bicicletas registradas (mecánicas y eléctricas)
     public void listarBicicletas() {
         System.out.println("\nListado de bicicletas:");
+        // Muestro cada bici con su tipo y estado; en eléctricas agrego batería
         for (int i = 0; i < bicicletas.size(); i++) {
             Bicicleta b = bicicletas.get(i);
 
@@ -251,17 +272,20 @@ public class ControlBicishare {
 
     }
 
+    // Muestra las bicicletas que están disponibles para prestar
     public void listarDisponibles() {
         System.out.println("\nListado de bicicletas disponibles");
 
         boolean hayDisponibles = false;
 
+        // Recorro todas y muestro solo las que están en true (disponibles)
         for (int i = 0; i < bicicletas.size(); i++) {
             Bicicleta b = bicicletas.get(i);
 
             if (b.getEstado()) {
                 hayDisponibles = true;
 
+                // Si es eléctrica, muestro también la batería
                 if (b instanceof Electrica) {
                     Electrica e = (Electrica) b;
                     System.out.println(
@@ -280,9 +304,13 @@ public class ControlBicishare {
         }
     }
 
+    // Permite prestar una bicicleta a un usuario.
+    // Comprueba que el usuario exista, que la bici esté libre
+    // y que, si es eléctrica, tenga batería suficiente
     public void prestarBicicleta() {
         System.out.println("\n--- Prestar Bicicleta ---");
 
+        // Pido ID de usuario y valido que sea número
         System.out.print("Ingrese su ID de usuario: ");
         while (!sc.hasNextInt()) {
             System.out.println(" Debe ingresar un número entero para el ID.");
@@ -292,6 +320,7 @@ public class ControlBicishare {
         int idUsuario = sc.nextInt();
         sc.nextLine();
 
+        // Busco el usuario en la lista
         Usuario u = null;
         for (int i = 0; i < usuarios.size(); i++) {
             Usuario user = usuarios.get(i);
@@ -304,7 +333,7 @@ public class ControlBicishare {
             System.out.println(" No existe un usuario con ID " + idUsuario + ".");
             return;
         }
-
+        // Muestro disponibles (las eléctricas con batería 0 no aparecen)
         System.out.println("\nBicicletas disponibles:");
         boolean hayDisponibles = false;
         for (int i = 0; i < bicicletas.size(); i++) {
@@ -313,6 +342,7 @@ public class ControlBicishare {
                 if (b instanceof Electrica) {
                     Electrica e = (Electrica) b;
                     if (e.getNivelBateria() == 0) {
+                        // si está en 0%, la salto (no prestable)
                         continue;
                     }
                     hayDisponibles = true;
@@ -328,7 +358,7 @@ public class ControlBicishare {
             System.out.println("No hay bicicletas disponibles en este momento.");
             return;
         }
-
+        // Pido el ID de la bicicleta y valido que esté disponible
         System.out.print("\nIngrese el ID de la bicicleta que desea tomar: ");
         while (!sc.hasNextInt()) {
             System.out.println("  Debe ingresar un número entero.");
@@ -342,6 +372,7 @@ public class ControlBicishare {
         for (int i = 0; i < bicicletas.size(); i++) {
             Bicicleta b = bicicletas.get(i);
             if (b.getId() == idBici && b.getEstado()) {
+                // Si es eléctrica y tiene 0%, la bloqueo acá también por si acaso
                 if (b instanceof Electrica) {
                     Electrica e = (Electrica) b;
                     if (e.getNivelBateria() == 0) {
@@ -358,11 +389,12 @@ public class ControlBicishare {
             System.out.println(" El ID " + idBici + " no existe o no está disponible.");
             return;
         }
-
+        // Registro el préstamo y marco la bici como no disponible
         Prestamo nuevo = new Prestamo(u, biciElegida);
         prestamos.add(nuevo);
         biciElegida.setEstado(false);
 
+        // Mensaje de confirmación
         String tipo;
         if (biciElegida instanceof Electrica) {
             tipo = "Electrica";
@@ -375,9 +407,11 @@ public class ControlBicishare {
 
     }
 
+    // Permite devolver una bicicleta prestada.
+    // Marca la bicicleta como disponible y descuenta batería si es eléctrica.
     public void devolverBicicleta() {
         System.out.println("\n--- Devolver Bicicleta ---");
-
+        // Pido ID de usuario y valido que sea número
         System.out.print("Ingrese su ID de usuario: ");
         while (!sc.hasNextInt()) {
             System.out.println(" Debe ingresar un número entero para el ID.");
@@ -386,7 +420,7 @@ public class ControlBicishare {
         }
         int idUsuario = sc.nextInt();
         sc.nextLine();
-
+        // Busco el usuario
         Usuario u = null;
         for (int i = 0; i < usuarios.size(); i++) {
             Usuario user = usuarios.get(i);
@@ -399,7 +433,7 @@ public class ControlBicishare {
             System.out.println(" No existe un usuario con ID " + idUsuario + ".");
             return;
         }
-
+        // Busco su préstamo activo (asumimos 1 por usuario)
         Prestamo prestamoUsuario = null;
         for (int i = 0; i < prestamos.size(); i++) {
             Prestamo p = prestamos.get(i);
@@ -412,7 +446,7 @@ public class ControlBicishare {
             System.out.println(" El usuario " + u.getNombre() + " no tiene bicicletas en préstamo.");
             return;
         }
-
+        // Muestro la bici que va a devolver
         Bicicleta b = prestamoUsuario.getBici();
         System.out.println("\nBicicleta en préstamo de " + u.getNombre() + ":");
         if (b instanceof Electrica) {
@@ -422,7 +456,7 @@ public class ControlBicishare {
         } else if (b instanceof Mecanica) {
             System.out.println(b.getId() + " - " + "Mecanica" + " - " + b.getEstadoTexto());
         }
-
+        // Si es eléctrica, descargo un 15% (sin dejar negativo)
         if (b instanceof Electrica) {
             Electrica e = (Electrica) b;
             int nueva = e.getNivelBateria() - 15;
@@ -432,6 +466,7 @@ public class ControlBicishare {
             e.setNivelBateria(nueva);
         }
 
+        // Marco disponible y elimino el préstamo
         b.setEstado(true);
 
         for (int i = 0; i < prestamos.size(); i++) {
@@ -441,7 +476,7 @@ public class ControlBicishare {
                 break;
             }
         }
-
+        // Confirmación final
         String tipo;
         if (b instanceof Electrica) {
             tipo = "Electrica";
@@ -460,9 +495,11 @@ public class ControlBicishare {
         }
     }
 
+    // Permite recargar la batería de una bicicleta eléctrica
     public void recargarBicicleta() {
         System.out.println("\n--- Recargar Bicicleta ---");
 
+        // Pido el ID de la bici y valido que sea número
         System.out.print("Ingrese el ID de la bicicleta: ");
         while (!sc.hasNextInt()) {
             System.out.println(" Debe ingresar un número entero.");
@@ -471,7 +508,7 @@ public class ControlBicishare {
         }
         int id = sc.nextInt();
         sc.nextLine();
-
+        // Busco la bici por ID
         Bicicleta b = null;
         for (int i = 0; i < bicicletas.size(); i++) {
             if (bicicletas.get(i).getId() == id) {
@@ -484,6 +521,7 @@ public class ControlBicishare {
             return;
         }
 
+        // Si es eléctrica, pongo batería en 100. Si es mecánica, aviso que no aplica
         if (b instanceof Electrica) {
             Electrica e = (Electrica) b;
             e.setNivelBateria(100);
@@ -493,14 +531,16 @@ public class ControlBicishare {
         }
     }
 
+    // Muestra solo los préstamos que siguen activos en el momento
     public void mostrarHistorial() {
         System.out.println("\n--- Historial de préstamos activos ---");
-
+        // Si no hay préstamos, lo informo y salgo
         if (prestamos.isEmpty()) {
             System.out.println(" No hay préstamos activos en este momento.");
             return;
         }
 
+        // Recorro cada préstamo y muestro el usuario y la bici asociada
         for (int i = 0; i < prestamos.size(); i++) {
             Prestamo p = prestamos.get(i);
             Usuario u = p.getUsuario();
@@ -525,7 +565,9 @@ public class ControlBicishare {
         }
     }
 
+    // Muestra un mensaje de despedida y cierra el programa
     public void salir() {
+        // Mensaje corto de cierre y fin del programa
         System.out.println("¡Hasta luego!");
         System.exit(0);
     }
