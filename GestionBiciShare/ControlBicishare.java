@@ -3,10 +3,7 @@ package GestionBiciShare;
 import ClasesBiciShare.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.List;
-import java.util.Optional;
 
-@SuppressWarnings("unused")
 public class ControlBicishare {
     private ArrayList<Bicicleta> bicicletas = new ArrayList<>();
     private ArrayList<Usuario> usuarios = new ArrayList<>();
@@ -136,6 +133,8 @@ public class ControlBicishare {
     public void registrarBicicleta() {
         System.out.println("Registrar Bicicleta");
 
+        System.out.println("Registrar Bicicleta");
+
         int id;
         while (true) {
             System.out.print("Ingrese el ID de la bicicleta (máx. 5 dígitos): ");
@@ -154,7 +153,8 @@ public class ControlBicishare {
             }
 
             boolean repetido = false;
-            for (Bicicleta b : bicicletas) {
+            for (int i = 0; i < bicicletas.size(); i++) {
+                Bicicleta b = bicicletas.get(i);
                 if (b.getId() == id) {
                     repetido = true;
                     break;
@@ -191,7 +191,7 @@ public class ControlBicishare {
         if (modelo.equalsIgnoreCase("Mecanica")) {
             bicicletas.add(new Mecanica(id, estado));
             System.out.println(" Bicicleta mecánica registrada.");
-        } else { // Electrica
+        } else {
             int nivel;
             while (true) {
                 System.out.print("Nivel de batería (0-100): ");
@@ -211,7 +211,7 @@ public class ControlBicishare {
                 }
             }
 
-            Electrica nuevaBici = new Electrica(id, modelo, nivel);
+            Electrica nuevaBici = new Electrica(id, estado, nivel);
             bicicletas.add(nuevaBici);
             System.out.println(" Bicicleta eléctrica registrada.");
         }
