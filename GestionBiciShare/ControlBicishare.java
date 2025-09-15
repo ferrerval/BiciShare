@@ -465,6 +465,6 @@ public class ControlBicishare {
 
     public void salir() {
         System.out.println("¡Hasta luego!");
-        return;
+        System.exit(0);
     }
 }
