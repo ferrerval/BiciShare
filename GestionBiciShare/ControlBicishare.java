@@ -456,6 +456,39 @@ public class ControlBicishare {
         }
     }
 
+    public void recargarBicicleta() {
+        System.out.println("\n--- Recargar Bicicleta ---");
+
+        System.out.print("Ingrese el ID de la bicicleta: ");
+        while (!sc.hasNextInt()) {
+            System.out.println(" Debe ingresar un número entero.");
+            sc.next();
+            System.out.print("Ingrese el ID de la bicicleta: ");
+        }
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        Bicicleta b = null;
+        for (int i = 0; i < bicicletas.size(); i++) {
+            if (bicicletas.get(i).getId() == id) {
+                b = bicicletas.get(i);
+                break;
+            }
+        }
+        if (b == null) {
+            System.out.println(" No existe una bicicleta con ese ID.");
+            return;
+        }
+
+        if (b instanceof Electrica) {
+            Electrica e = (Electrica) b;
+            e.setNivelBateria(100);
+            System.out.println(" Bicicleta eléctrica (ID " + e.getId() + ") recargada al 100%.");
+        } else {
+            System.out.println(" La bicicleta (ID " + b.getId() + ") es mecánica y no requiere recarga.");
+        }
+    }
+
     public void mostrarHistorial() {
         System.out.println("\n--- Historial de préstamos activos ---");
 
